@@ -1,0 +1,169 @@
+/* Background */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('C:\Users\Wk\movie-explorer\frontend\src\pngtree-blank-movie-ticket-with-popcorn-bucket-filmstrip-clapperboard-and-camera-in-picture-image_3709549.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+}
+
+
+/* Container */
+.movie-list {
+  padding: 30px;
+  text-align: center;
+}
+
+.movie-list h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* Movie Grid */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* Movie Card */
+.movie-card {
+   background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.movie-card-content {
+  flex: 1;
+}
+
+.movie-card:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+  z-index: 5;
+}
+
+
+.movie-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.movie-card h3 {
+  font-size: 1.2rem;
+  margin: 5px 0;
+  color: #f0f0f0;
+}
+
+.movie-card p {
+  margin: 4px 0;
+  color: #cccccc;
+  font-size: 0.9rem;
+}
+
+.movie-card button {
+  align-self: center;
+  margin-top: auto;
+  padding: 8px 12px;
+  background: #ff4d4d;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.movie-card button:hover {
+  background: #e60000;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.4s ease-in-out;
+  z-index: 999;
+  animation: scaleUp 0.4s ease-in-out;
+}
+
+.modal-content {
+  position: relative;
+  background: #111;
+  padding: 20px;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(255,255,255,0.1);
+  animation: scaleUp 0.4s ease-in-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.5rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+iframe {
+  border-radius: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.genre-filter {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.genre-filter label {
+  font-size: 1.1rem;
+  margin-right: 8px;
+}
+
+.genre-filter select {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+}
+
+
