@@ -1,35 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './MovieList.css';
+import { useNavigate } from 'react-router-dom';
 
 const genres = [
-  { id: 28, name: 'Action' },
-  { id: 12, name: 'Adventure' },
-  { id: 16, name: 'Animation' },
-  { id: 35, name: 'Comedy' },
-  { id: 80, name: 'Crime' },
-  { id: 18, name: 'Drama' },
-  { id: 10751, name: 'Family' },
-  { id: 14, name: 'Fantasy' },
-  { id: 27, name: 'Horror' },
-  { id: 10402, name: 'Music' },
-  { id: 9648, name: 'Mystery' },
-  { id: 10749, name: 'Romance' },
-  { id: 878, name: 'Science Fiction' },
-  { id: 53, name: 'Thriller' }
+  { id: 28, name: 'Action' }, { id: 12, name: 'Adventure' }, { id: 16, name: 'Animation' },
+  { id: 35, name: 'Comedy' }, { id: 80, name: 'Crime' }, { id: 18, name: 'Drama' },
+  { id: 10751, name: 'Family' }, { id: 14, name: 'Fantasy' }, { id: 27, name: 'Horror' },
+  { id: 10402, name: 'Music' }, { id: 9648, name: 'Mystery' }, { id: 10749, name: 'Romance' },
+  { id: 878, name: 'Science Fiction' }, { id: 53, name: 'Thriller' }
 ];
 
 const MovieList = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [trailerKey, setTrailerKey] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState('all');  // <== genre state
+  const [selectedGenre, setSelectedGenre] = useState('all');
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/movies/trending')
       .then((response) => setMovies(response.data.results))
       .catch((error) => console.error('Fetch error:', error));
   }, []);
+
+  const handleViewDetails = async (movie) => {
+    try {
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
+      );
+
+      const imdbID = response.data.imdb_id;
+
+      if (imdbID) {
+        navigate(`/movie/${imdbID}`);
+      } else {
+        alert("IMDb ID not found for this movie.");
+      }
+    } catch (error) {
+      console.error("Failed to fetch IMDb ID:", error);
+      alert("Error loading movie details.");
+    }
+  };
 
   const fetchTrailer = async (movieId) => {
     try {
@@ -75,7 +87,6 @@ const MovieList = () => {
     setTrailerKey(null);
   };
 
-  // 🎯 Filter by genre
   const filteredMovies = selectedGenre === 'all'
     ? movies
     : movies.filter(movie => movie.genre_ids.includes(parseInt(selectedGenre)));
@@ -88,12 +99,7 @@ const MovieList = () => {
       <div style={{ marginBottom: '20px' }}>
         <label style={{ fontWeight: 'bold', marginRight: '10px' }}>Filter by Genre:</label>
         <select value={selectedGenre} onChange={(e) => setSelectedGenre(e.target.value)}
-          style={{
-            padding: '10px',
-            borderRadius: '8px',
-            fontSize: '1rem'
-          }}
-        >
+          style={{ padding: '10px', borderRadius: '8px', fontSize: '1rem' }}>
           <option value="all">All</option>
           {genres.map(genre => (
             <option key={genre.id} value={genre.id}>{genre.name}</option>
@@ -113,7 +119,11 @@ const MovieList = () => {
             <h3>{movie.title}</h3>
             <p>📅 Release: {movie.release_date}</p>
             <p>⭐ Rating: {movie.vote_average}</p>
+
             <button onClick={() => handleSaveFavorite(movie)}>Save to Favorites</button>
+            <button onClick={() => handleViewDetails(movie)} style={{ marginTop: '10px', backgroundColor: '#4CAF50' }}>
+              View Details
+            </button>
           </div>
         ))}
       </div>
@@ -139,6 +149,3 @@ const MovieList = () => {
 };
 
 export default MovieList;
-
-
-
