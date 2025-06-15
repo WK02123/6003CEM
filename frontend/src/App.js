@@ -1,17 +1,53 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MovieList from './components/MovieList';
-import MovieDetails from './components/MovieDetails';  // ✅ Use correct file name
+import MovieDetail from './components/MovieDetails';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Header from './components/Header';
+
+// Auth check
+const isAuthenticated = () => !!localStorage.getItem('token');
+
+// Protected Route Wrapper with Header
+const PrivateRouteWithHeader = ({ children }) => {
+  const email = localStorage.getItem('userEmail'); // ✅ Get email from storage
+  return isAuthenticated() ? (
+    <>
+      <Header email={email} /> {/* ✅ Pass email to Header */}
+      {children}
+    </>
+  ) : (
+    <Navigate to="/login" />
+  );
+};
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <h1>🎬 Movie Explorer</h1>
-
         <Routes>
-          <Route path="/" element={<MovieList />} />
-          <Route path="/movie/:imdbID" element={<MovieDetails />} />
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Protected Routes with Header */}
+          <Route
+            path="/home"
+            element={
+              <PrivateRouteWithHeader>
+                <MovieList />
+              </PrivateRouteWithHeader>
+            }
+          />
+          <Route
+            path="/movie/:imdbID"
+            element={
+              <PrivateRouteWithHeader>
+                <MovieDetail />
+              </PrivateRouteWithHeader>
+            }
+          />
         </Routes>
       </div>
     </Router>

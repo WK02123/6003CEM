@@ -10,6 +10,8 @@ const movieRoutes = require('./routes/movies');
 const omdbRoutes = require('./routes/omdb');
 const reviewRoutes = require('./routes/review');
 const tmdbRoutes = require('./routes/tmdb');  // ✅ ✅ Add TMDB route
+const authRoutes = require('./routes/auth');
+
 
 // ✅ Initialize express app first
 const app = express();
@@ -23,6 +25,8 @@ app.use('/api/movies', movieRoutes);
 app.use('/api/omdb', omdbRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/tmdb', tmdbRoutes);  // ✅ ✅ Register TMDB route
+app.use('/api/auth', authRoutes);
+
 
 // ✅ Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
