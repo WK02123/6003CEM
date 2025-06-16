@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Header.css';
 
 const Header = ({ email }) => {
   const navigate = useNavigate();
@@ -10,38 +11,19 @@ const Header = ({ email }) => {
     navigate('/login');
   };
 
-  // ✅ Extract username from email (before @)
-  const username = email ? email.split('@')[0] : '';
-
   return (
-    <div style={{
-      backgroundColor: '#1a1a1a',
-      padding: '15px 25px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      color: 'white',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
-    }}>
-      <h2>🎬 Movie Explorer</h2>
-      <div>
-        {username && <span style={{ marginRight: '20px' }}>Welcome, {username}!</span>}
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: '8px 16px',
-            background: '#ff4d4d',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          Logout
-        </button>
+    <div className="header">
+      <div className="left-buttons">
+        <button className="nav-btn" onClick={() => navigate('/home')}>🏠 Home</button>
+        <button className="nav-btn" onClick={() => navigate('/favorites')}>⭐ Favorites</button>
+      </div>
+      <div className="right-info">
+        <span className="user-email">{email}</span>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );
 };
 
 export default Header;
+

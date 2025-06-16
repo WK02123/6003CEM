@@ -67,20 +67,25 @@ const MovieList = () => {
     }
   };
 
-  const handleSaveFavorite = (movie) => {
-    axios.post('http://localhost:5000/api/movies/favorite', {
-      movieId: movie.id,
-      title: movie.title,
-      poster_path: movie.poster_path,
-      release_date: movie.release_date,
-      vote_average: movie.vote_average
-    })
-    .then(() => alert(`Saved "${movie.title}" to favorites!`))
-    .catch((err) => {
-      console.error('Failed to save:', err);
-      alert('Failed to save movie.');
-    });
-  };
+const handleSaveFavorite = (movie) => {
+  const userEmail = localStorage.getItem('userEmail'); // ✅ Get logged-in user's email
+
+  axios.post('http://localhost:5000/api/movies/favorite', {
+    movieId: movie.id,
+    title: movie.title,
+    poster_path: movie.poster_path,
+    release_date: movie.release_date,
+    vote_average: movie.vote_average,
+    userEmail: userEmail // ✅ Send the user email
+  })
+  .then(() => alert(`Saved "${movie.title}" to favorites!`))
+  .catch((err) => {
+    console.error('Failed to save:', err);
+    alert('Failed to save movie.');
+  });
+};
+
+
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -93,7 +98,11 @@ const MovieList = () => {
 
   return (
     <div className="movie-list">
-      <h2>Trending Movies</h2>
+      {/* Top header with Favorites button */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h2>Trending Movies</h2>
+        
+      </div>
 
       {/* Genre Filter Dropdown */}
       <div style={{ marginBottom: '20px' }}>
@@ -107,6 +116,7 @@ const MovieList = () => {
         </select>
       </div>
 
+      {/* Movie Grid */}
       <div className="movie-grid">
         {filteredMovies.map(movie => (
           <div key={movie.id} className="movie-card">
@@ -128,6 +138,7 @@ const MovieList = () => {
         ))}
       </div>
 
+      {/* Trailer Modal */}
       {isModalOpen && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>

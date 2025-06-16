@@ -29,3 +29,56 @@
 .logout-btn:hover {
   background: #c0392b;
 }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #222;
+  padding: 10px 20px;
+  color: white;
+}
+
+.left-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.right-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-btn {
+  padding: 8px 15px;
+  background-color: #444;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover {
+  background-color: #666;
+}
+
+.logout-btn {
+  padding: 8px 15px;
+  background-color: #e60000;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #cc0000;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: #ddd;
+}
+

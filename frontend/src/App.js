@@ -5,16 +5,17 @@ import MovieDetail from './components/MovieDetails';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Header from './components/Header';
+import FavoritesPage from './components/FavoritesPage'; // ✅ Import the FavoritesPage component
 
-// Auth check
+// Auth check function
 const isAuthenticated = () => !!localStorage.getItem('token');
 
 // Protected Route Wrapper with Header
 const PrivateRouteWithHeader = ({ children }) => {
-  const email = localStorage.getItem('userEmail'); // ✅ Get email from storage
+  const email = localStorage.getItem('userEmail'); // ✅ Get user email from localStorage
   return isAuthenticated() ? (
     <>
-      <Header email={email} /> {/* ✅ Pass email to Header */}
+      <Header email={email} /> {/* ✅ Show header when authenticated */}
       {children}
     </>
   ) : (
@@ -27,11 +28,12 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
-          {/* Protected Routes with Header */}
+          {/* Protected Routes */}
           <Route
             path="/home"
             element={
@@ -45,6 +47,14 @@ function App() {
             element={
               <PrivateRouteWithHeader>
                 <MovieDetail />
+              </PrivateRouteWithHeader>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <PrivateRouteWithHeader>
+                <FavoritesPage />
               </PrivateRouteWithHeader>
             }
           />
